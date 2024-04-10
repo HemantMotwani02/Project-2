@@ -5,8 +5,7 @@ function Footer() {
 
     return (
         <>
-            <h1>Footer</h1>
-            <div style={{width:'80vw',backgroundColor:'black',color:'white',textDecoration:'underline'}}>
+            <div style={{ width: '80vw', color: 'black', textDecoration: 'underline',border:'1px solid #F0F0F0', borderRadius: '0.5em' , margin:'10px 0', padding:'5px 0', fontSize:'20px'}}>
                 <p>© 2024. All rights reserved.</p>
             </div>
         </>

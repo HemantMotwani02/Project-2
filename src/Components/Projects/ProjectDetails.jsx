@@ -1,33 +1,19 @@
-import Axios from 'axios';
-import React, { useState } from 'react';
+import React from 'react';
 
-function ProjectDetails() {
-  const [projectData, setProjectData] = useState('');
-  const [team, setTeam] = useState([]);
-
-  async function TaskData() {
-    const response = await Axios.get('http://10.0.2.63:8000/');
-    console.log(response.data);
-
-    setProjectData(response.data.projectdata[1].project.pdesc);
-    setTeam(response.data.projectdata[1].names[1].uname);
-    console.log("teams:\n", team);
-
-  }
-  TaskData();
+function ProjectDetails(props) {
+  
 
   return (
 
     <>
-      <h1>Project Details</h1>
-      <div style={{ border: '1px solid #D6D5D5', borderRadius: '0.8em', width: '70vw', backgroundColor: '#EFECFF', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', padding: '30px ' }}>
+      {/* <h4>Project Details</h4> */}
+      <div style={{ borderRadius: '0.6em', width: '80vw', backgroundColor: '#E0F1FD', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', padding: '20px' }}>
 
 
         {/*Project Details*/}
-        <div style={{ margin: '0 0 25px 0' }}>
-          <h4>Details</h4>
-
-          <p>{projectData}</p>
+        <div>
+          {/* <h4>Details</h4> */}
+          <p>{props.description}</p>
         </div>
 
 
@@ -35,8 +21,14 @@ function ProjectDetails() {
         <div >
           <h4>Team Members</h4>
           <ul>
-            <li>{team}</li>
+            {props.Members.map((i => <li> {i}</li>))}
+            {/* {props.Members.map(member => <li>{member}</li>)} */}
           </ul>
+        </div>
+
+        {/*Time*/}
+        <div style={{ color: 'grey', fontSize: '13px', alignSelf: 'flex-end', margin: '20px 0 -30px 0 ' }}>
+          <p>{props.time}</p>
         </div>
       </div>
     </>
@@ -44,3 +36,6 @@ function ProjectDetails() {
 }
 
 export default ProjectDetails
+
+
+

@@ -2,16 +2,15 @@
   /* --background: #9c88ff; */
   --navbar-width: 256px;
   --navbar-width-min: 80px;
-  --navbar-dark-primary: #18283b;
-  --navbar-dark-secondary: #2c3e50;
+  --navbar-dark-primary: #2090f2;
+  --navbar-dark-secondary: #ffffff;
   --navbar-light-primary: #f5f6fa;
-  --navbar-light-secondary: #8392a5;
+  --navbar-light-secondary: #ffffff;
 }
 
 html,
 body {
   margin: 0;
-  
 }
 
 #nav-toggle:checked ~ #nav-header {
@@ -214,49 +213,49 @@ label[for="nav-toggle"] {
   transition: min-width 0.2s;
 }
 .nav-button:nth-of-type(1):hover {
-  color: white;
+  color: rgb(2, 2, 2);
 }
 .nav-button:nth-of-type(1):hover ~ #nav-content-highlight {
   top: 16px;
 }
 .nav-button:nth-of-type(2):hover {
-  color: white;
+  color: rgb(2, 2, 2);
 }
 .nav-button:nth-of-type(2):hover ~ #nav-content-highlight {
   top: 70px;
 }
 .nav-button:nth-of-type(3):hover {
-  color: white;
+  color: rgb(2, 2, 2);
 }
 .nav-button:nth-of-type(3):hover ~ #nav-content-highlight {
   top: 124px;
 }
 .nav-button:nth-of-type(4):hover {
-  color: white;
+  color: rgb(2, 2, 2);
 }
 .nav-button:nth-of-type(4):hover ~ #nav-content-highlight {
   top: 178px;
 }
 .nav-button:nth-of-type(5):hover {
-  color: white;
+  color: rgb(2, 2, 2);
 }
 .nav-button:nth-of-type(5):hover ~ #nav-content-highlight {
   top: 232px;
 }
 .nav-button:nth-of-type(6):hover {
-  color: white;
+  color: rgb(2, 2, 2);
 }
 .nav-button:nth-of-type(6):hover ~ #nav-content-highlight {
   top: 286px;
 }
 .nav-button:nth-of-type(7):hover {
-  color: white;
+  color: rgb(2, 2, 2);
 }
 .nav-button:nth-of-type(7):hover ~ #nav-content-highlight {
   top: 340px;
 }
 .nav-button:nth-of-type(8):hover {
-  color: white;
+  color: rgb(2, 2, 2);
 }
 .nav-button:nth-of-type(8):hover ~ #nav-content-highlight {
   top: 394px;

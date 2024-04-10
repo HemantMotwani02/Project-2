@@ -1,42 +1,40 @@
-import Axios from 'axios';
-import React, { useState } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-function Task() {
-    const [taskname, setTaskname] = useState('');
-    const [taskinfo, setTaskinfo] = useState('');
-
-    async function TaskData() {
-        const response = await Axios.get('http://10.0.2.63:8000/');
-        console.log(response.data);
-        setTaskname(response.data.projectdata[1].tasks[0].tname);
-        setTaskinfo(response.data.projectdata[1].tasks[0].tdesc);
-
-    }
-    TaskData();
+function Task(props) {
 
     return (
 
         <>
-            <h1>Task</h1>
-            <div style={{ border: '1px solid #D6D5D5', borderRadius: '0.8em', width: '70vw', backgroundColor: '#EFECFF', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', padding: '30px ' }}>
 
+            <div style={{ borderRadius: '0.6em', width: '80vw', backgroundColor: '#E0F1FD', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', padding: '30px ', margin: '15px 0' }}>
 
-                {/*Project Details*/}
                 <div >
                     {/* <h4>Name</h4> */}
 
-                    <p style={{fontWeight:'bold'}}>{taskname}</p>
+                    <p style={{ fontWeight: 'bold' }}>Task Name:- {props.title}</p>
                 </div>
 
-
-                {/*Team Members*/}
                 <div >
                     {/* <h4>Description</h4> */}
-                    <p>{taskinfo}</p>
+                    <p style={{ wordBreak: 'break-all' }}>Task Details:- {props.description} </p>
+                </div>
+
+                {/*View Logs*/}
+                <div>
+                    <Link to={`/logs/${props.projectId}`}>  <button style={{ width: '100px', fontSize: '12px' }} >View Logs</button>
+                    </Link>
+                    {/* ${props.projectId} */}
+                </div>
+
+                {/*Time*/}
+                <div style={{ color: 'grey', fontSize: '13px', alignSelf: 'flex-end', margin: '20px -15px -20px 0' }}>
+                    <span style={{ margin: '0 15px' }}>{props.CreatedBy}</span>
+                    <span>{props.Time.split('T')[0]}</span>
                 </div>
             </div>
         </>
     )
 }
 
-export default Task
+export default Task;

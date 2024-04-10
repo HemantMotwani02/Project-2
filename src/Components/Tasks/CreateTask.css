@@ -41,12 +41,17 @@ textarea {
   -webkit-transition: all 0.3 ease;
   transition: all 0.3 ease;
   cursor: pointer;
+  margin-top:15px ;
 }
+
+
+
 .form button:hover,
 .form button:active,
 .form button:focus {
   background: #43a047;
 }
+
 .form .message {
   margin: 15px 0 0;
   color: #b3b3b3;
@@ -95,4 +100,11 @@ body {
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+#discard-btn{
+  background: #f56161;
+}
+#discard-btn:hover{
+  background: #f34a4a;
 }

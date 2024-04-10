@@ -1,21 +1,32 @@
-// import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import './App.css';
+// import Sidebar from './Components/Sidebar/Sidebar';
 // import Login from './Components/Login';
 // import Register from './Components/Register';
-import ProjectTitle from './Components/Projects/ProjectTitle';
+import Logs from './Components/Logs/Logs';
+import Project from './Components/Projects/Project';
+
 
 function App() {
 
 
   return (
     <>
-      <ProjectTitle />
-      {/* <Router>
+
+
+      {/* <Sidebar /> */}
+      {/* <Project /> */}
+
+      {/* <Logs /> */}
+      <Router>
         <Routes>
-          <Route exact path='/Login' Component={Login}></Route>
-          <Route exact path='/Register' Component={Register}></Route>
+          {/* <Route exact path='/Login' Component={Login}></Route>
+          <Route exact path='/Register' Component={Register}></Route> */}
+          <Route exact path='/' Component={Project}></Route>
+          {/* <Route exact path='/logs' Component={Logs}></Route> */}
+          <Route exact path="/logs/:projectId" Component={Logs}></Route>
         </Routes>
-      </Router> */}
+      </Router>
 
     </>
   )
