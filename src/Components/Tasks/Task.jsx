@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+
 function Task(props) {
 
     return (
@@ -38,3 +39,17 @@ function Task(props) {
 }
 
 export default Task;
+
+
+// Using Skeleton loader
+// const MyComponent = React.lazy(() => import('./MyComponent'));
+
+/*
+-> Steps to implement lazy loading
+1) Recognize the component for lazy loading
+2) Import lazy() and suspense components from the react package
+3) Use lazy() function to dynamically import the component you want to lazy load.
+4) Wrap the lazy-loaded component in a suspense component.
+
+
+*/

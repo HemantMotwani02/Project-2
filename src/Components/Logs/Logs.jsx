@@ -1,16 +1,15 @@
 import Axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css';
 import { MDBTable, MDBTableBody, MDBTableHead } from 'mdb-react-ui-kit';
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, lazy, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Log from './Log';
-
+// import Log from './Log';
+const Log = lazy(() => import('./Log'));
 
 function Logs() {
-
     const { projectId } = useParams();
     const [logdata, setLogdata] = useState([]);
-
+    const [logCount, setLogCount] = useState(0);
 
     // View Logs
     useEffect(() => {
@@ -19,7 +18,7 @@ function Logs() {
         async function showLogs(id) {
             const response = await Axios.get(`http://10.0.2.63:8000/logs/${id}`);;
             setLogdata(response.data.logdata);
-
+            setLogCount(response.data.logdata.length);
             console.log(logdata);
         }
         // response.data.logdata.lid
@@ -33,10 +32,9 @@ function Logs() {
 
     }, []);
 
-
     return (
         <>
-            <h2>Total Logs</h2>
+            <h2>Total Logs ({logCount})</h2>
 
             <MDBTable align='middle'>
 
@@ -54,8 +52,9 @@ function Logs() {
 
                 <MDBTableBody>
 
-                    {logdata.map(log => <Log id={log.lid} desc={log.logdata} by={log.uname} date={log.created_date} status={log.logstatus} taskName={log.tname} taskDesc={log.tdesc}/>)}
-                    
+                    <Suspense fallback='{Logs are Loading...}'>
+                        {logdata.map(log => <Log id={log.lid} desc={log.logdata} by={log.uname} date={log.created_date} status={log.logstatus} taskName={log.tname} taskDesc={log.tdesc} />)}
+                    </Suspense>
 
                     {/* <Log /> */}
                 </MDBTableBody>

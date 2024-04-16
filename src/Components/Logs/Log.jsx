@@ -15,11 +15,16 @@ function Log(props) {
             case 'Approved':
                 setColor('success'); break;
             default:
-                setColor('warning'); // Default to warning for any other status
+                setColor(''); // Default to warning for any other status
                 break;
 
         };
     }, [])
+
+
+    function ChangeLogStatus() {
+        // axios.post();
+    }
 
     return (
         <>
@@ -33,7 +38,18 @@ function Log(props) {
                 <td>
 
                     <MDBBadge color={color} pill>
-                        {props.status}
+
+                        {props.status === 'pending' ? (
+                            <>
+                                <div style={{ display: 'flex', flexDirection: 'column', }}>
+                                    <button style={{ margin: '5px', background: 'orange', color: 'black' }} onClick={ChangeLogStatus}>Accept</button>
+                                    <button style={{ margin: '5px', background: 'orange', color: 'black' }} onClick={ChangeLogStatus}>Reject</button>
+                                </div>
+                            </>
+                        ) : (
+                            props.status
+                        )}
+
                     </MDBBadge></td>
 
             </tr>
@@ -42,3 +58,9 @@ function Log(props) {
 }
 
 export default Log;
+
+
+
+
+
+
