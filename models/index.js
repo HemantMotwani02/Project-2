@@ -41,34 +41,3 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 module.exports = db;
-
-
-
-
-/*
-npx sequelize-cli model:generate
---name User
---attributes
- user_id:integer,
- name:string,
- email:string,
- password:string,
- role:string,
- created_at:date,
- created_by:integer,
- updated_at:date,
- updated_by:integer,
- deleted_at:date
-*/
-
-/*
-npx sequelize-cli db:migrate
-npx sequelize-cli db:migrate:undo
-npx sequelize-cli db:migrate:undo --name 20240416121740-create-user.js
-npx sequelize-cli db:migrate:status
-*/
-
-/*
-npx sequelize-cli seed:generate --name users-add
-
-*/
