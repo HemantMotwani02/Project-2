@@ -21,8 +21,10 @@
     "nodemon": "^3.1.0",
     "path": "^0.12.7",
     "sequelize": "^6.37.2",
-    "sequelize-cli": "^6.6.2",
     "socket.io": "^4.7.5",
     "validator": "^13.11.0"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.6.2"
   }
 }

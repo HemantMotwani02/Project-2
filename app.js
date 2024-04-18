@@ -5,6 +5,7 @@ const dotenv = require('dotenv').config();
 const env = process.env.NODE_ENV || 'development';
 const bodyParser = require('body-parser');
 const validator = require('validator');
+const bcrypt = require('bcrypt');
 const cookieParser = require('cookie-parser');
 const app = express();
 
@@ -76,10 +77,16 @@ app.listen(port, () => { console.log('Server Started at port: ', port) });
 
 
 
+
+
+
 // New
 const db = require('./models/index');
 const Users = db.users;
+const Projects = db.projects;
+const Teams = db.teams;
 
+// Login
 app.post('/login1', async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -89,7 +96,17 @@ app.post('/login1', async (req, res) => {
         });
 
         if (data) {
-            res.status(200).json(data);
+            const passwordMatch = await bcrypt.compare(password, data.password);
+            if (passwordMatch) {
+                const token = jwt.sign({ email: email, }, process.env.JWT_SECRET_KEY, { expiresIn: 1000 * 60 * 60 });
+                res.cookie('token', token, { httpOnly: true, sameSite: 'None', secure: true, });
+                res.status(200).send("Login Successfully");
+                console.log("Login Successfully");
+            }
+            else {
+                res.send("Wrong Password");
+                console.log("Wrong Password");
+            }
         }
         else {
             res.send("User does not exist");
@@ -102,24 +119,24 @@ app.post('/login1', async (req, res) => {
 
 });
 
-app.post('/register1', (req, res) => {
+
+// Register
+app.post('/register1', async (req, res) => {
     const { name, email, password, role } = req.body;
 
 
-    // if (!validator.isEmail(email)) { res.send("Enter Valid Email"); return; }
-    // if (!validator.isStrongPassword(password)) { res.send("Weak Password"); return; }
-
     try {
-        if (name == '' || email == '' || password == '' || role == '') {
-            res.send("Fill all the fields");
-        }
-        else {
-            const token = jwt.sign({ email: email, }, process.env.JWT_SECRET_KEY, { expiresIn: 1000 * 60 * 60 });
-            console.log(token);
-            res.cookie('token', token, { httpOnly: true, sameSite: 'None', secure: true, });
 
-            res.status(200).send('User Registered Successfully');
-            return;
+        if (!name || !email || !password || !role) { return res.status(400).json({ error: "Fill all the fields" }); }
+        // if (!validator.isEmail(email)) { res.send("Enter Valid Email"); return; }
+        // if (!validator.isStrongPassword(password)) { res.send("Weak Password"); return; }
+        else {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            let newUser = await Users.create({ name: name, email: email, password: hashedPassword, role: role });
+            const token = jwt.sign({ email: email }, process.env.JWT_SECRET_KEY, { expiresIn: 1000 * 60 * 60 });
+            res.cookie('token', token, { httpOnly: true, sameSite: 'None', secure: true, });
+            res.status(200).json({ message: "User Registered Successfully" });
+            console.log("User Registered Successfully");
         }
 
     } catch (error) {
@@ -130,18 +147,44 @@ app.post('/register1', (req, res) => {
 });
 
 
-app.get('/Projects', (req, res) => {
-    const { userId, role } = req.body;
-    const result = `
-    role:'Manager'
-    select * from projects where managerId = ${userId}
-    role:'Employee'
-    select projectId from team where userId = ${userId} Join
-    role:'Super Admin'
-    select * from projects where created_by = ${userId}
-    `
-    res.send(result);
+
+// Display Projects
+app.get('/Projects', async (req, res) => {
+    const { id, role } = req.body;
+
+    // Projects for Super Admin
+    if (role === "Super Admin") {
+        let data = await Projects.findAll({
+            where: { created_by: id }
+        });
+
+        res.status(200).json({ data });
+    }
+    // Projects for Manager
+    else if (role === "Manager") {
+        let data = await Projects.findAll({
+            attributes: ['project_id','project_name','project_details','created_by','createdAt'],
+            where: { manager_id: id }
+        });
+        res.status(200).json({ data });
+    }
+    // Projects for Employee
+    else if (role === "Employee") {
+        
+        let data = await Teams.findAll({
+            attributes: ['project_id'],
+            where: { user_id: id }
+        });
+
+        let userProjects = await Teams.findOne({
+            where:{project_id:data[0].project_id}
+        });
+        res.status(200).json({ userProjects });
+    }
 });
+
+
+
 
 app.post('/Createproject', (req, res) => {
     const { userId, projectName, projectDetails, assignTo } = req.body;
@@ -151,39 +194,3 @@ app.post('/Createproject', (req, res) => {
 
 
 });
-
-
-
-
-//npx sequelize-cli init
-
-/*
-npx sequelize-cli model:generate
---name User
---attributes
- user_id:integer,
- name:string,
- email:string,
- password:string,
- role:enum('Super Admin','Manager','Employee'),
- created_at:date,
- created_by:integer,
- updated_at:date,
- updated_by:integer,
- deleted_at:date
-*/
-
-/*
-npx sequelize-cli db:migrate
-npx sequelize-cli db:migrate:undo
-npx sequelize-cli db:migrate:undo --name 20240416121740-create-user.js
-npx sequelize-cli db:migrate:status
-*/
-
-/*
-npx sequelize-cli seed:generate --name users-add
-npx sequelize-cli db:seed:all
-npx sequelize-cli db:seed:undo
-*/
-// Today's Update:- 
-//  - Conditional Rendering

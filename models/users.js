@@ -14,10 +14,19 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   users.init({
+    user_id: {
+      allowNull: false,
+      autoIncrement: true,
+      primaryKey: true,
+      type: DataTypes.INTEGER
+    },
     name: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
-    role: DataTypes.STRING,
+    role: {
+      type: DataTypes.ENUM('Super Admin', 'Manager', 'Employee'), // Define ENUM datatype for role
+      allowNull: false
+    },
     created_by: DataTypes.INTEGER,
     updated_by: DataTypes.INTEGER,
     deleted_at: DataTypes.DATE
