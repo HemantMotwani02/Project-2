@@ -163,21 +163,21 @@ app.get('/Projects', async (req, res) => {
     // Projects for Manager
     else if (role === "Manager") {
         let data = await Projects.findAll({
-            attributes: ['project_id','project_name','project_details','created_by','createdAt'],
+            attributes: ['project_id', 'project_name', 'project_details', 'created_by', 'createdAt'],
             where: { manager_id: id }
         });
         res.status(200).json({ data });
     }
     // Projects for Employee
     else if (role === "Employee") {
-        
+
         let data = await Teams.findAll({
             attributes: ['project_id'],
             where: { user_id: id }
         });
 
         let userProjects = await Teams.findOne({
-            where:{project_id:data[0].project_id}
+            where: { project_id: data[0].project_id }
         });
         res.status(200).json({ userProjects });
     }
@@ -186,11 +186,13 @@ app.get('/Projects', async (req, res) => {
 
 
 
-app.post('/Createproject', (req, res) => {
-    const { userId, projectName, projectDetails, assignTo } = req.body;
-    const result = `Insert project details(userId,projectName,projectDetails,assignTo)`
-    if (result) { res.send({ id: userId, assign: assignTo, name: projectName, details: projectDetails }) }
-    else { res.send("Error in creating Project"); }
-
-
+app.post('/Createproject', async (req, res) => {
+    const { id, manager_id, project_name, project_details, role } = req.body;
+    const newProject = await Projects.create({ manager_id: manager_id, project_name: project_name, project_details: project_details, created_by: id, updated_by: id, createdAt: new Date(), updatedAt: new Date() });
+    
+    if (newProject) {
+        res.status(200).json({ newProject });
+    }
+    else { res.send("Error in creating project"); }
+    
 });
