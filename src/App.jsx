@@ -2,6 +2,7 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import './App.css';
 // import Sidebar from './Components/Sidebar/Sidebar';
 import Login from './Components/Login';
+import CreateLog from './Components/Logs/CreateLog';
 import Logs from './Components/Logs/Logs';
 import Project from './Components/Projects/Project';
 import Register from './Components/Register';
@@ -25,6 +26,7 @@ function App() {
           <Route exact path='/' Component={Project}></Route>
           {/* <Route exact path='/logs' Component={Logs}></Route> */}
           <Route exact path="/logs/:projectId" Component={Logs}></Route>
+          <Route exact path='/CLog' Component={CreateLog}></Route>
         </Routes>
       </Router>
 

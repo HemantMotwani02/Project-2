@@ -13,19 +13,21 @@ function Login() {
         event.preventDefault(); // Prevent default form submission behavior
 
         const data = { email: email, password: password };
-        console.log(data);
+
         // http://10.0.2.63:8000/login
         Axios.post('http://127.0.0.1:8000/login', data, { withCredentials: true })
             .then(response => {
                 // Handle successful response
+                // axios.defaults.headers.common['Authorization']=`Bearer ${token}`;
                 console.log('Data sent');
                 console.log('Response data:', response.data);
             })
             .catch(error => {
                 console.error('Error occurred during login:', error);
             });
+            
     }
-
+    
     function handleChange(event) {
         switch (event.target.type) {
             case 'email': setEmail(event.target.value); break;
@@ -57,3 +59,5 @@ function Login() {
 }
 
 export default Login;
+
+
